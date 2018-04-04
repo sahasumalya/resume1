@@ -1,0 +1,39 @@
+<html>
+
+<head>
+   <title>Download</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  <div id="logo">
+    <img src="innoraft-logo.png">
+  </div>
+  <div class="form">
+    <p id="con"> RESUME DETAILS </p><br>
+    <br></br>
+	 <form id="testform" method="POST" action="filedownload.php" enctype="multipart/form-data">
+       <p ><input type=text value="" onkeyup="checkf(),fill() " id="fn"  name="First_Name" required placeholder="First Name"><span id="pro">Enter Your First Name</span></p>
+       <p ><input type=text value="" placeholder="Last Name" onkeyup="checkl(),fill()"  id="ln"  name="Last_Name" required><span id="ses">Enter your Last  Name</span></p>
+       <p><input type=text id="fln" placeholder="Full Name" name="Full_Name" readonly style="background-color:#efefef">Full  Name</p>
+       <input type="file" name="filetoupload" id="filetoupload" onchange="typechec()" required> Upload your image file
+     
+       <p> Enter your Marks in different subjects in correct format</p>
+       <textarea id="raw" name="raw" rows="4" cols="25"  onblur="textrim()" required></textarea>
+       <span id="marks"></span>
+       <p>  <input type="text" id="email" name="email" placeholder="Enter your email" onblur="verifyy()"><span id="validation"></span> </p>
+       <p> <input type="text" name="number" id="number" placeholder="Enter your Number" onblur="valinumberi()"><span id="numvalstat"></span></p>
+       <div id="authenticate"></div>
+       <div id="statu"></div>
+       <p><button id="restrict" type="submit"> Submit Now</button></p>
+  </form>
+  </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title> Email Check </title>
+
+
+	</head>
+	<body>
+	
+	<input type="text" id="email" name="email" placeholder="Enter your email">
+	<button onclick="verify()"> Verify </button>
+	<div id="validation"></div>
+	
+    <script>
+    function verify()
+    {
+    	var email=document.getElementById("email").value;
+    	//document.write(email);
+    	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	var val=re.test(email);
+        if(val==1)
+             validate();
+         else
+         	document.getElementById("validation").innerHTML="Fake Email";
+    }
+    function validate()
+    {
+    	var email=document.getElementById("email").value;
+    	var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var obj = this.responseText;
+                var obj1=JSON.parse(obj);
+                //obj=JSON.parse(obj);
+               // document.write(obj1["smtp_check"]);
+               if((obj1["smtp_check"])==1)
+               {
+
+               	if( obj1["domain"]!="gmail.com" && obj1["domain"]!="hotmail.com" && obj1["domain"]!="reddif.com" && obj1["domain"]!="yahoo.com")
+               	document.getElementById("validation").innerHTML="Valid Email";
+                else
+
+                 document.getElementById("validation").innerHTML="Public emails not allowed";
+               }
+               else
+               	document.getElementById("validation").innerHTML="Fake Email";
+            }
+        };
+        xmlhttp.open("GET", "http://apilayer.net/api/check?access_key=31eb6d3a6752cef630765be627b00370& email=" + email, true);
+        xmlhttp.send();
+    }
+
+    </script>
+	</body>
+</html>

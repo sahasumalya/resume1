@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>1st Assignment</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<h1> Hello </h1>
+
+<form action="welcome.php" method="post">
+<p><input type=text value="" onkeyup="fill() " onblur="fill()" id="fn"  name="First_Name" required placeholder="First Name">Enter Your First Name</p>
+<p><input type=text value="" placeholder="Last Name" onkeyup="fill()" onblur="fill()" id="ln"  name="Last_Name" required>Enter your Last  Name</p>
+<p><input type=text id="fln" placeholder="Full Name" name="Full_Name" readonly style="background-color:#efefef">Full  Name</p>
+<p><button type=submit> Submit Now</button></p>
+</form>
+<script>
+function fill()
+{
+var full_name="";
+
+if(document.getElementById("fn").value!="" || document.getElementById("ln").value!="")
+	document.getElementById('fln').value=document.getElementById('fn').value+" "+document.getElementById("ln").value;
+else
+	document.getElementById('fln').value="";
+}
+</script>
+</body>
+
+</html>

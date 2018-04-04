@@ -1,0 +1,29 @@
+body{
+  background-image:url("apple.jpg");
+  background-position: center;
+  width:100%;
+  height:100%;
+}
+.form{
+  position:absolute;
+  width:32.65%;
+  height:auto;
+  left:25%;
+  top:20%;
+  background-color:white;
+  padding-left:10%;
+  padding-right:10%;
+}
+#con{
+  position:absolute;
+  left:40.5%;
+}
+#logo{
+  height:auto;
+  width:auto;
+  position:absolute;
+  left:25%;
+  padding-left:21.33%;
+  padding-right:21.33%;
+  background-color: white;
+}

@@ -1,0 +1,202 @@
+<html>
+
+<head>
+   <title>Resume </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<form id="testform" method="POST" action="resume.php" enctype="multipart/form-data">
+      <p><input type=text value="" onkeyup="fill() " onblur="fill()" id="fn"  name="First_Name" required placeholder="First Name">Enter Your First Name</p>
+     <p><input type=text value="" placeholder="Last Name" onkeyup="fill()" onblur="fill()" id="ln"  name="Last_Name" required>Enter your Last  Name</p>
+     <p><input type=text id="fln" placeholder="Full Name" name="Full_Name" readonly style="background-color:#efefef">Full  Name</p>
+     <input type="file" name="filetoupload" id="filetoupload" onchange="typechec()" required> Upload your image file
+     
+     <p> Enter your Marks in different subjects in correct format</p>
+     <textarea id="raw" name="raw" rows="4" cols="50" placholder="Enter your marks in correct-format">
+      
+			</textarea>
+     <p> <input type="text" name="number" id="number" placeholder="Enter your Number" onblur="valinumberi()"></p>
+     <div id="numvalstat"></div>
+    <input type="text" id="email" name="email" placeholder="Enter your email" onblur="verifyy()">
+	
+	<div id="validation"></div>
+    <p><button type="submit" onclick="validAl()"> Submit Now</button></p>
+   </form>
+
+
+<script type="text/javascript">
+var flags={number:"0",email:"0",image:"0"};
+function validAl()
+{
+	validAll(flags);
+}
+function validAll(flags)
+{
+	if(Number(flags.number)==1  && Number(flags.image)==1)
+		document.getElementById("validation").innerHTML="success";
+	else
+		document.getElementById("validation").innerHTML="fail";
+}
+function typechec()
+{
+	typecheck(flags);
+}
+function typecheck(verification)
+{
+	var fulpath=document.getElementById("filetoupload").value;
+	var len=fulpath.length;
+	var filpath=fulpath.slice(len-3);
+	if(filpath=="jpg" || filpath=="png")
+	{   
+		verification.image="1";
+		alert("valid image");
+	}
+	else
+	{
+		verification.image="0";
+		alert("invalid image");
+	}
+}
+function valinumberi()
+{
+	valinumber(flags);
+}
+function valinumber(verification)
+{
+	var number=document.getElementById("number").value;
+	if(number.indexOf("+91")==0)
+	{
+      var filnum=number.slice(3);
+      //var st=Number(filnum);
+      if(isNaN(filnum)==1)
+      {
+      //	document.write(isNan(filnum));
+      	document.getElementById("numvalstat").innerHTML="Charecters are not allowed";
+      	verification.number="0";
+        
+      }
+      else
+      	
+      {
+      	if(filnum.length==10)
+      	{
+            verification.number="1";
+        	document.getElementById("numvalstat").innerHTML="Number Validation Done";
+
+      	}
+        else
+        {
+        	document.getElementById("numvalstat").innerHTML="The number is less or more than 10 digits";
+        	verification.number="0";
+        }
+
+      }
+	}
+	else
+	{
+		document.getElementById("numvalstat").innerHTML="Only Indian Users are allowed";
+		verification.number="0";
+	}
+
+}
+function fill()
+{
+var full_name="";
+
+if(document.getElementById("fn").value!="" || document.getElementById("ln").value!="")
+	document.getElementById('fln').value=document.getElementById('fn').value+" "+document.getElementById("ln").value;
+else
+	document.getElementById('fln').value="";
+}
+function verifyy()
+{
+	verify(flags);
+}
+function verify(verification)
+    {
+    	var email=document.getElementById("email").value;
+    	//document.write(email);
+    	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	var val=re.test(email);
+        if(val==1)
+             validate(verification);
+         else
+         {
+         	document.getElementById("validation").innerHTML="Fake Email";
+         	verification.email="0";
+
+         }
+    }
+    function validate(verification)
+    {
+    	var email=document.getElementById("email").value;
+    	var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var obj = this.responseText;
+                var obj1=JSON.parse(obj);
+                //obj=JSON.parse(obj);
+               // document.write(obj1["smtp_check"]);
+               if((obj1["smtp_check"])==1)
+               {
+
+               	if( obj1["domain"]!="gmail.com" && obj1["domain"]!="hotmail.com" && obj1["domain"]!="reddif.com" && obj1["domain"]!="yahoo.com")
+               	{
+               	document.getElementById("validation").innerHTML="Valid Email";
+               	verification.email="1";
+
+               }
+                else
+               {
+                 document.getElementById("validation").innerHTML="Public emails not allowed";
+                 verification.email="0";
+               }
+               }
+               else
+               {
+               	document.getElementById("validation").innerHTML="Fake Email";
+               	verification.email="0";
+               }
+            }
+        };
+        xmlhttp.open("GET", "http://apilayer.net/api/check?access_key=31eb6d3a6752cef630765be627b00370& email=" + email, true);
+        xmlhttp.send();
+    }
+
+
+
+  $('#testform').submit(function(event){
+			event.preventDefault();
+			var data = new FormData(this);
+
+			console.log(data.get('Full_Name'));
+        if(Number(flags.number)==1  && Number(flags.image)==1)
+           callaja(data); 
+       
+   	
+			//if(Number(flags.number)==1  && Number(flags.image)==1)
+				//callaja();
+
+			});
+
+   function callaja(data)
+   {
+   //	var data = new FormData('#testform');
+   	$.ajax({
+              url: 'resume.php',
+             data: data,
+            processData: false,
+            contentType: false,
+             type: 'POST',
+             success: function(data){
+            alert(data);
+              }
+});
+
+   	
+   }
+
+</script>
+
+</body>
+</html>
